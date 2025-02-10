@@ -11,14 +11,10 @@
         <br><br>
         
         <select name="select_race" id="select_race" onchange="handleSelectChange()">
-          <option value="random">-- Filtrer par prestation --</option>
+          <option value="">-- Filtrer par prestation --</option>
 
           
-          <option value="retriever/golden">Golden retriever</option>
-          <option value="beagle">Beagle</option>
-          <option value="akita">akita</option>
-          <option value="australian/shepherd">Berger Australien</option>
-          <option value="chihuahua">Chihuahua</option>
+        
         </select>
         <button class="dog">Afficher une image de chien</button>
 
@@ -27,11 +23,23 @@
        
      
     </div>
+    <div class="grid_favorite">
+
+    </div>
    
 
 
   <script>
 
+   const dogButton = document.querySelector('.dog');
+   
+   const dogImage = document.querySelector('.dog_img');
+
+  raceSelector = document.querySelector('#select_race');
+
+  const gridFavorite = document.querySelector('.grid_favorite');
+
+    selectedValue = ''
     function handleSelectChange() {
       const selectElement = document.getElementById('select_race');
       selectedValue = selectElement.value;
@@ -39,26 +47,56 @@
      
       return selectedValue
     }
-  
-    
-    const dogButton = document.querySelector('.dog');
-   
-    const dogImage = document.querySelector('.dog_img');
+    fetch('https://dog.ceo/api/breeds/list/all')
+      .then(response => response.json())
+      .then(data => {
+      
+        const races = data.message;
+        
+      
+        for (let race in races) {
+       
+          const option = document.createElement('option');
+          option.value = race;
+          option.textContent = race;
 
+          
+            select_race.appendChild(option);
+        }
+      })
+      .catch(error => {
+        console.error('Erreur lors du fetch ', error);
+      });
+  
+   
+    
    
 
     
     dogButton.addEventListener('click', () => {
+  fetch(
+    selectedValue === "" 
+      ? 'https://dog.ceo/api/breeds/image/random' 
+      : 'https://dog.ceo/api/breed/' + selectedValue + '/images/random'
+  )
+    .then(response => response.json())
+    .then(data => {
+      dogImage.src = data.message;
+    })
+    .catch(error => {
+      console.error('Erreur lors du fetch :', error);
+    });
+});
+
+
+
+dogImage.addEventListener('click', () => {
       
-      fetch('https://dog.ceo/api/breed/'+selectedValue+'/images/random')
-        .then(response => response.json())
-        .then(data => {
-          
-          dogImage.src = data.message;
-        })
-        .catch(error => {
-          console.error('Erreur lors du fetch :', error);
-        });
+      const favoriteImg = document.createElement('img');
+      
+      favoriteImg.src = dogImage.src;
+      
+      gridFavorite.appendChild(favoriteImg);
     });
   </script>
 </body>

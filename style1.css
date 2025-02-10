@@ -15,3 +15,16 @@ body {
     
     width: auto;
   }
+
+
+  .grid_favorite {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  }
+
+  .grid_favorite img {
+    width :150px;
+    height: auto;
+    padding: 10px
+  }
