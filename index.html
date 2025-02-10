@@ -7,22 +7,50 @@
 </head>
 <body>
     <div class="main">
-        <img class="dog_img" src="" alt="Photo d'un chien" width="300">
+        <img class="dog_img" src="" alt="Photo d'un chien" style="height: 300px; width: auto;" >
         <br><br>
         
+        <select name="select_race" id="select_race" onchange="handleSelectChange()">
+          <option value="random">-- Filtrer par prestation --</option>
+
+          
+          <option value="retriever/golden">Golden retriever</option>
+          <option value="beagle">Beagle</option>
+          <option value="akita">akita</option>
+          <option value="australian/shepherd">Berger Australien</option>
+          <option value="chihuahua">Chihuahua</option>
+        </select>
         <button class="dog">Afficher une image de chien</button>
+
+
+
+       
+     
     </div>
    
+
+
   <script>
+
+    function handleSelectChange() {
+      const selectElement = document.getElementById('select_race');
+      selectedValue = selectElement.value;
+      
+     
+      return selectedValue
+    }
+  
     
     const dogButton = document.querySelector('.dog');
    
     const dogImage = document.querySelector('.dog_img');
 
+   
+
     
     dogButton.addEventListener('click', () => {
       
-      fetch('https://dog.ceo/api/breeds/image/random')
+      fetch('https://dog.ceo/api/breed/'+selectedValue+'/images/random')
         .then(response => response.json())
         .then(data => {
           
