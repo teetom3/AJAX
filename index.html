@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exemple Dog API</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <div class="main">
+        <img class="dog_img" src="" alt="Photo d'un chien" width="300">
+        <br><br>
+        
+        <button class="dog">Afficher une image de chien</button>
+    </div>
+   
+  <script>
+    
+    const dogButton = document.querySelector('.dog');
+   
+    const dogImage = document.querySelector('.dog_img');
+
+    
+    dogButton.addEventListener('click', () => {
+      
+      fetch('https://dog.ceo/api/breeds/image/random')
+        .then(response => response.json())
+        .then(data => {
+          
+          dogImage.src = data.message;
+        })
+        .catch(error => {
+          console.error('Erreur lors du fetch :', error);
+        });
+    });
+  </script>
+</body>
+</html>
