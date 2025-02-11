@@ -40,27 +40,43 @@
   const gridFavorite = document.querySelector('.grid_favorite');
 
     selectedValue = ''
+
+
+
+// Récupérer le changement de value du select 
+
     function handleSelectChange() {
+      // déclarer le select
       const selectElement = document.getElementById('select_race');
+
+      //recuperer la value du select choisi
       selectedValue = selectElement.value;
       
      
       return selectedValue
     }
-    fetch('https://dog.ceo/api/breeds/list/all')
+
+
+
+    function fectRaces(){
+      fetch('https://dog.ceo/api/breeds/list/all')
       .then(response => response.json())
       .then(data => {
-      
+        
+        //stock les races dans une varialbles
         const races = data.message;
         
-      
+       //je boucle pour chaque race et je creer un element option dans le select
         for (let race in races) {
        
+          //je declare l'element que je veux creer
           const option = document.createElement('option');
+          //je lui donne comme valeur la race
           option.value = race;
+          //je lui donne la race comme text
           option.textContent = race;
 
-          
+          //j'ajoute l'element option au select
             select_race.appendChild(option);
         }
       })
@@ -68,13 +84,15 @@
         console.error('Erreur lors du fetch ', error);
       });
   
+    }
+  
    
-    
    
-
-    
-    dogButton.addEventListener('click', () => {
+function fetchImage() {
+  dogButton.addEventListener('click', () => {
   fetch(
+    //fonction ternaire ou je m'assure que ou non qu'il n'y pas de race selectioné
+    //et je configure l'url en fonction
     selectedValue === "" 
       ? 'https://dog.ceo/api/breeds/image/random' 
       : 'https://dog.ceo/api/breed/' + selectedValue + '/images/random'
@@ -87,10 +105,12 @@
       console.error('Erreur lors du fetch :', error);
     });
 });
+}
+    
 
 
-
-dogImage.addEventListener('click', () => {
+function favoriteImgSave(){
+  dogImage.addEventListener('click', () => {
       
       const favoriteImg = document.createElement('img');
       
@@ -98,6 +118,11 @@ dogImage.addEventListener('click', () => {
       
       gridFavorite.appendChild(favoriteImg);
     });
+};
+
+fectRaces()
+fetchImage()
+favoriteImgSave()
   </script>
 </body>
 </html>
